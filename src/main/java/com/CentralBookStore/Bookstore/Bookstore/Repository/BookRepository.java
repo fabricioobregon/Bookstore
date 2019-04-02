@@ -1,4 +1,6 @@
-package com.CentralBookStore.Bookstore.Bookstore;
+package com.CentralBookStore.Bookstore.Bookstore.Repository;
+
+import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 
 import java.util.List;
 

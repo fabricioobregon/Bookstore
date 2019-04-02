@@ -1,4 +1,4 @@
-package com.CentralBookStore.Bookstore.Bookstore;
+package com.CentralBookStore.Bookstore.Bookstore.Model;
 
 public class Book {
     private static int globalBookId = 0;

@@ -1,6 +1,8 @@
-package com.CentralBookStore.Bookstore.Bookstore;
+package com.CentralBookStore.Bookstore.Bookstore.Service;
 
-import java.awt.*;
+import com.CentralBookStore.Bookstore.Bookstore.Model.OptionMenu;
+import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
+
 import java.security.InvalidParameterException;
 import java.util.Scanner;
 
@@ -36,60 +38,13 @@ public class StoreManager {
 
     }
 
-    private int readKeyboard(String usermodetext, int numberOfOptions) {
-        int choice = 0;
-
-        if (numberOfOptions == 2) {
-            while (choice != 1 && choice != 2) {
-                try {
-                    System.out.println(usermodetext);
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
-                } catch (Exception e) {
-                    System.out.println("INVALID OPTION!");
-                    scanner.nextLine();
-                }
-            }
-
-
-        } else if (numberOfOptions == 3) {
-            while (choice != 1 && choice != 2 && choice != 3) {
-                try {
-                    System.out.println(usermodetext);
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
-                } catch (Exception e) {
-                    System.out.println("INVALID OPTION!");
-                    scanner.nextLine();
-                }
-            }
-
-        } else if (numberOfOptions == 4) {
-            while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
-                try {
-                    System.out.println(usermodetext);
-                    choice = scanner.nextInt();
-                    scanner.nextLine();
-                } catch (Exception e) {
-                    System.out.println("INVALID OPTION!");
-                    scanner.nextLine();
-                }
-            }
-
-        }
-        System.out.println("The choice number is " + choice);
-        return choice;
-
-    }
-
-
     public void execute() {
         boolean loop = true;
-        
+
         do{
             switch (readKeyboard(OPTIONMENU,4)) {
                 case 1:
-                    new BookSearch(this.USERMODE);
+                    new BookSearch();
                     break;
                 case 2:
                     new ShoppingCart(this.USERMODE);
@@ -102,9 +57,29 @@ public class StoreManager {
                     loop = false;
                     break;
             }
-            
+
         }while(loop);
 
-
     }
+
+    private int readKeyboard(String usermodetext, int numberOfOptions) {
+        int choice = 0;
+
+        while (choice < 1 || choice > numberOfOptions) {
+            try {
+                System.out.println(usermodetext);
+                choice = scanner.nextInt();
+                scanner.nextLine();
+                if(choice < 1 || choice > numberOfOptions){ System.out.println("INVALID OPTION!"); }
+            } catch (Exception e) {
+                System.out.println("INVALID OPTION!");
+                scanner.nextLine();
+            }
+        }
+
+        System.out.println("The choice number is " + choice);
+        return choice;
+    }
+
+
 }
