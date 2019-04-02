@@ -2,10 +2,12 @@ package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//@Service
 public class ShoppingCart {
     private BookRepository bookRepository;
     private final String checkOutMessage = "This is your order: ";
@@ -15,7 +17,7 @@ public class ShoppingCart {
         private List<Book> cartBbooks = new ArrayList<Book>();
 
     public ShoppingCart(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+        this.bookRepository = this.bookRepository;
     }
 
     private int generateId() {
@@ -32,5 +34,6 @@ public class ShoppingCart {
     }
 
 
-
+    public void cartOperations() {
+    }
 }

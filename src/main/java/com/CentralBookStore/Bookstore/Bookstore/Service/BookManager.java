@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-@Service
+//@Service
 public class BookManager {
-    private BookRepository bookRepository;
-    private Scanner scanner = new Scanner(System.in);
-    private final String BOOKMANAGEROPTIONMENU = "Please, selec the option from menu: \n" +
+    private static BookRepository bookRepository;
+    private final Scanner scanner = new Scanner(System.in);
+    private static final String BOOKMANAGEROPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - For " + BookManagerOptionMenu.ADDBOOK + "\n" +
             "2 - For " + BookManagerOptionMenu.LISTBOOKS + "\n" +
             "3 - For " + BookManagerOptionMenu.REMOVEBOOK + "\n" +
@@ -21,7 +21,7 @@ public class BookManager {
 
     public BookManager(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        bookOperations();
+
     }
 
     public void bookOperations() {

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+//@Repository
 public class inMemoryBookRepository implements BookRepository{
     private final List<Book> books = new ArrayList<>();
 

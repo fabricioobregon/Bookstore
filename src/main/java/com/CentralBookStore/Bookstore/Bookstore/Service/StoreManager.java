@@ -3,14 +3,16 @@ package com.CentralBookStore.Bookstore.Bookstore.Service;
 import com.CentralBookStore.Bookstore.Bookstore.Model.OptionMenu;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-import org.springframework.stereotype.Service;
-
+import com.CentralBookStore.Bookstore.Bookstore.Repository.inMemoryBookRepository;
+import org.springframework.stereotype.Controller;
 import java.security.InvalidParameterException;
 import java.util.Scanner;
 
-@Service
+//@Controller
 public class StoreManager {
-    private BookRepository bookRepository;
+    private BookRepository bookRepository = new inMemoryBookRepository();
+    private BookManager bookManager  = new BookManager(bookRepository);
+    private ShoppingCart shoppingCart = new ShoppingCart(bookRepository);
     private Scanner scanner = new Scanner(System.in);
     private final Enum USERMODE;
     private final String USERMODETEXT = "Please, selec the user mode: \n" +
@@ -22,10 +24,8 @@ public class StoreManager {
             "2 - For " + OptionMenu.SHOPPINGCART + "\n" +
             "3 - For " + OptionMenu.BOOKMANAGER + "\n" +
             "4 - For " + OptionMenu.EXIT;
-    private BookRepository List;
 
     public StoreManager() {
-
         this.USERMODE = userModeSelected();
         System.out.println(this.USERMODE + " mode selected\n");
     }
@@ -56,13 +56,13 @@ public class StoreManager {
                     if(USERMODE.equals(UserMode.VISITOR)){
                         System.out.println("You do not have permission to start a Shopping Cart!");
                     } else {
-                        new ShoppingCart(bookRepository);
+                        shoppingCart.cartOperations();
                     }
                     break;
                 case 3:
                     if(USERMODE.equals(UserMode.ADMIN)){
                         System.out.println("Managing Books");
-                        new BookManager(bookRepository);
+                        bookManager.bookOperations();
                     } else {
                         System.out.println("You do not have permission to manage books!");
                     }
@@ -95,6 +95,5 @@ public class StoreManager {
         System.out.println("The choice number is " + choice);
         return choice;
     }
-
 
 }
