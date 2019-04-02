@@ -2,11 +2,15 @@ package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.OptionMenu;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
+import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
+import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.Scanner;
 
+@Service
 public class StoreManager {
+    private BookRepository bookRepository;
     private Scanner scanner = new Scanner(System.in);
     private final Enum USERMODE;
     private final String USERMODETEXT = "Please, selec the user mode: \n" +
@@ -18,8 +22,10 @@ public class StoreManager {
             "2 - For " + OptionMenu.SHOPPINGCART + "\n" +
             "3 - For " + OptionMenu.BOOKMANAGER + "\n" +
             "4 - For " + OptionMenu.EXIT;
+    private BookRepository List;
 
     public StoreManager() {
+
         this.USERMODE = userModeSelected();
         System.out.println(this.USERMODE + " mode selected\n");
     }
@@ -47,10 +53,19 @@ public class StoreManager {
                     new BookSearch();
                     break;
                 case 2:
-                    new ShoppingCart(this.USERMODE);
+                    if(USERMODE.equals(UserMode.VISITOR)){
+                        System.out.println("You do not have permission to start a Shopping Cart!");
+                    } else {
+                        new ShoppingCart(bookRepository);
+                    }
                     break;
                 case 3:
-                    new BookManager(this.USERMODE);
+                    if(USERMODE.equals(UserMode.ADMIN)){
+                        System.out.println("Managing Books");
+                        new BookManager(bookRepository);
+                    } else {
+                        System.out.println("You do not have permission to manage books!");
+                    }
                     break;
                 case 4:
                     System.out.println("Thank you for visiting our Book Store!");
@@ -62,12 +77,12 @@ public class StoreManager {
 
     }
 
-    private int readKeyboard(String usermodetext, int numberOfOptions) {
+    private int readKeyboard(String userModeText, int numberOfOptions) {
         int choice = 0;
 
         while (choice < 1 || choice > numberOfOptions) {
             try {
-                System.out.println(usermodetext);
+                System.out.println(userModeText);
                 choice = scanner.nextInt();
                 scanner.nextLine();
                 if(choice < 1 || choice > numberOfOptions){ System.out.println("INVALID OPTION!"); }
