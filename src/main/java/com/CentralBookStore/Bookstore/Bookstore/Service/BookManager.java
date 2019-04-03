@@ -4,28 +4,23 @@ import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Model.BookManagerOptionMenu;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
+import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BookManager {
-    private final UserMode userMode;
+    private UserMode userMode;
     private BookRepository bookRepository;
-    private final Scanner scanner;
-    private ReadKeyboard readKeyboard ;
     private static final String BOOKMANAGEROPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - For " + BookManagerOptionMenu.ADDBOOK + "\n" +
             "2 - For " + BookManagerOptionMenu.LISTBOOKS + "\n" +
             "3 - For " + BookManagerOptionMenu.REMOVEBOOK + "\n" +
             "4 - For " + BookManagerOptionMenu.EXIT;
 
-    public BookManager(UserMode userMode, BookRepository bookRepository, Scanner scanner) {
+    public BookManager(UserMode userMode, BookRepository bookRepository) {
         this.userMode = userMode;
         this.bookRepository = bookRepository;
-        this.scanner = scanner;
-        this.readKeyboard = new ReadKeyboard(scanner,"", 0);
-
     }
 
     public void execute(){
@@ -39,7 +34,7 @@ public class BookManager {
     public void bookOperations() {
     boolean loop = true;
         do{
-            switch (readKeyboard.numberUsingMenu(scanner,BOOKMANAGEROPTIONMENU,4)) {
+            switch (ReadKeyboard.numberUsingMenu(BOOKMANAGEROPTIONMENU,4)) {
                 case 1:
                     addBook();
                     break;
@@ -58,7 +53,7 @@ public class BookManager {
 
     public void addBook(){
         Book book;
-        book = new Book(readKeyboard.text(scanner,"Please, type the book title:"));
+        book = new Book(ReadKeyboard.text("Please, type the book title:"));
         System.out.println(book.toString());
         bookRepository.save(book);
     }
@@ -72,7 +67,7 @@ public class BookManager {
 
     public void deleteBook(){
         listBooks();
-        int id = Integer.valueOf(readKeyboard.text(scanner,"Type the id to delete the book"));
+        int id = Integer.valueOf(ReadKeyboard.text("Type the id to delete the book"));
         bookRepository.delete(id);
     }
 }

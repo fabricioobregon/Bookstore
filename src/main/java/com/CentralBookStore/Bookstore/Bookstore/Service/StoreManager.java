@@ -4,15 +4,14 @@ import com.CentralBookStore.Bookstore.Bookstore.Model.OptionMenu;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.inMemoryBookRepository;
+import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
+
 import java.security.InvalidParameterException;
-import java.util.Scanner;
 
 public class StoreManager {
     private BookRepository bookRepository = new inMemoryBookRepository();
     private BookManager bookManager;
     private ShoppingCart shoppingCart;
-    private Scanner scanner;
-    private ReadKeyboard readKeyboard;
     private Enum USERMODE;
     private final String USERMODETEXT = "Please, selec the user mode: \n" +
             "1 - For " + UserMode.ADMIN + "\n" +
@@ -25,8 +24,6 @@ public class StoreManager {
             "4 - For " + OptionMenu.EXIT;
 
     public StoreManager() {
-        this.scanner = new Scanner(System.in);
-        this.readKeyboard = new ReadKeyboard(scanner,"", 0);
     }
 
     public void execute() {
@@ -36,7 +33,7 @@ public class StoreManager {
     }
 
     public Enum userModeSelected() {
-        switch (readKeyboard.number(scanner,USERMODETEXT,3)) {
+        switch (ReadKeyboard.number(USERMODETEXT,3)) {
             case 1:
                 return UserMode.ADMIN;
             case 2:
@@ -51,21 +48,23 @@ public class StoreManager {
     public void optionMenu(UserMode userMode){
         boolean loop = true;
         do{
-            switch (readKeyboard.numberUsingMenu(scanner,OPTIONMENU,4)) {
+            switch (ReadKeyboard.numberUsingMenu(OPTIONMENU,4)) {
                 case 1:
-                    new BookSearch(userMode,bookRepository,scanner).execute();
+                    new BookSearch(userMode,bookRepository).execute();
                     break;
                 case 2:
-                    new ShoppingCart(userMode,bookRepository,scanner).execute();
+                    new ShoppingCart(userMode,bookRepository).execute();
                     break;
                 case 3:
-                    new BookManager(userMode,bookRepository,scanner).execute();
+                    new BookManager(userMode,bookRepository).execute();
                     break;
                 case 4:
                     System.out.println("Thank you for visiting our Book Store!");
                     loop = false;
                     break;
+                default:
             }
         }while(loop);
     }
+
 }

@@ -1,12 +1,8 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
-import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
 public class ShoppingCart {
     private int id;
@@ -16,9 +12,9 @@ public class ShoppingCart {
     //private static List<Book> globalBooks = new ArrayList<Book>();
     //private List<Book> cartBbooks = new ArrayList<Book>();
 
-    public ShoppingCart(UserMode userMode, BookRepository repository, Scanner scanner) {
+    public ShoppingCart(UserMode userMode, BookRepository bookRepository) {
         this.userMode = userMode;
-        this.bookRepository = this.bookRepository;
+        this.bookRepository = bookRepository;
     }
 
     private int generateId() {
@@ -35,6 +31,11 @@ public class ShoppingCart {
 
     }
 
-    public void execute() {
+    public void execute(){
+        if(userMode == userMode.ADMIN){
+            cartOperations();
+        } else {
+            System.out.println("You do not have access logged as " + this.userMode);
+        }
     }
 }

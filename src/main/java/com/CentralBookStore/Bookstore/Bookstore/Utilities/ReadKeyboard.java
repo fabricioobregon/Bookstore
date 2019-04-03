@@ -1,25 +1,16 @@
-package com.CentralBookStore.Bookstore.Bookstore.Service;
+package com.CentralBookStore.Bookstore.Bookstore.Utilities;
 
 import java.util.Scanner;
 
 public class ReadKeyboard {
-    private final Scanner scanner;
-    private final String optionText;
-    private int numberOfOptions;
+    private static final Scanner scanner = new Scanner(System.in);
+    private static String optionText;
+    private static int numberOfOptions;
 
-    public ReadKeyboard(Scanner scanner, String optionText, int numberOfOptions) {
-        this.scanner = scanner;
-        this.optionText = optionText;
-        this.numberOfOptions = numberOfOptions;
+    public ReadKeyboard(String optionText, int numberOfOptions) {
     }
 
-    public ReadKeyboard(Scanner scanner, String optionText) {
-        this.scanner = scanner;
-        this.optionText = optionText;
-        this.numberOfOptions = 0;
-    }
-
-    public int number(Scanner scanner, String optionText, int numberOfOptions) {
+    public static int number(String optionText, int numberOfOptions) {
         int choice = 0;
         while (choice < 1 || choice > numberOfOptions) {
             try {
@@ -35,7 +26,7 @@ public class ReadKeyboard {
         return choice;
     }
 
-    public int numberUsingMenu(Scanner scanner, String optionMenuText, int numberOfOptions) {
+    public static int numberUsingMenu(String optionMenuText, int numberOfOptions) {
         int choice = 0;
         while (choice < 1 || choice > numberOfOptions) {
             try {
@@ -52,7 +43,7 @@ public class ReadKeyboard {
         return choice;
     }
 
-    public String text(Scanner scanner, String optionText) {
+    public static String text(String optionText) {
         System.out.println(optionText);
         return scanner.nextLine();
     }

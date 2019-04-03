@@ -4,8 +4,6 @@ import com.CentralBookStore.Bookstore.Bookstore.Service.StoreManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Scanner;
-
 //@SpringBootApplication
 public class BookstoreApplication {
 
