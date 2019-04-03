@@ -4,17 +4,16 @@ import com.CentralBookStore.Bookstore.Bookstore.Model.OptionMenu;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.inMemoryBookRepository;
-import org.springframework.stereotype.Controller;
 import java.security.InvalidParameterException;
 import java.util.Scanner;
 
-//@Controller
 public class StoreManager {
     private BookRepository bookRepository = new inMemoryBookRepository();
-    private BookManager bookManager  = new BookManager(bookRepository);
-    private ShoppingCart shoppingCart = new ShoppingCart(bookRepository);
-    private Scanner scanner = new Scanner(System.in);
-    private final Enum USERMODE;
+    private BookManager bookManager;
+    private ShoppingCart shoppingCart;
+    private Scanner scanner;
+    private ReadKeyboard readKeyboard;
+    private Enum USERMODE;
     private final String USERMODETEXT = "Please, selec the user mode: \n" +
             "1 - For " + UserMode.ADMIN + "\n" +
             "2 - For " + UserMode.USER + "\n" +
@@ -26,12 +25,18 @@ public class StoreManager {
             "4 - For " + OptionMenu.EXIT;
 
     public StoreManager() {
+        this.scanner = new Scanner(System.in);
+        this.readKeyboard = new ReadKeyboard(scanner,"", 0);
+    }
+
+    public void execute() {
         this.USERMODE = userModeSelected();
         System.out.println(this.USERMODE + " mode selected\n");
+        optionMenu((UserMode) this.USERMODE);
     }
 
     public Enum userModeSelected() {
-        switch (readKeyboard(USERMODETEXT,3)) {
+        switch (readKeyboard.number(scanner,USERMODETEXT,3)) {
             case 1:
                 return UserMode.ADMIN;
             case 2:
@@ -41,59 +46,26 @@ public class StoreManager {
             default:
                 throw new InvalidParameterException(">>>Invalid user mode selected<<<");
         }
-
     }
 
-    public void execute() {
+    public void optionMenu(UserMode userMode){
         boolean loop = true;
-
         do{
-            switch (readKeyboard(OPTIONMENU,4)) {
+            switch (readKeyboard.numberUsingMenu(scanner,OPTIONMENU,4)) {
                 case 1:
-                    new BookSearch();
+                    new BookSearch(userMode,bookRepository,scanner).execute();
                     break;
                 case 2:
-                    if(USERMODE.equals(UserMode.VISITOR)){
-                        System.out.println("You do not have permission to start a Shopping Cart!");
-                    } else {
-                        shoppingCart.cartOperations();
-                    }
+                    new ShoppingCart(userMode,bookRepository,scanner).execute();
                     break;
                 case 3:
-                    if(USERMODE.equals(UserMode.ADMIN)){
-                        System.out.println("Managing Books");
-                        bookManager.bookOperations();
-                    } else {
-                        System.out.println("You do not have permission to manage books!");
-                    }
+                    new BookManager(userMode,bookRepository,scanner).execute();
                     break;
                 case 4:
                     System.out.println("Thank you for visiting our Book Store!");
                     loop = false;
                     break;
             }
-
         }while(loop);
-
     }
-
-    private int readKeyboard(String userModeText, int numberOfOptions) {
-        int choice = 0;
-
-        while (choice < 1 || choice > numberOfOptions) {
-            try {
-                System.out.println(userModeText);
-                choice = scanner.nextInt();
-                scanner.nextLine();
-                if(choice < 1 || choice > numberOfOptions){ System.out.println("INVALID OPTION!"); }
-            } catch (Exception e) {
-                System.out.println("INVALID OPTION!");
-                scanner.nextLine();
-            }
-        }
-
-        System.out.println("The choice number is " + choice);
-        return choice;
-    }
-
 }

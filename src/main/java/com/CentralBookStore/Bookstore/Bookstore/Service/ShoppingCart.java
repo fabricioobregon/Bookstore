@@ -1,22 +1,23 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
+import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-//@Service
 public class ShoppingCart {
+    private int id;
+    private static int globalShoppingCartId = 0;
+    private UserMode userMode;
     private BookRepository bookRepository;
-    private final String checkOutMessage = "This is your order: ";
-        private static int globalShoppingCartId = 0;
-        private int id;
-        private static List<Book> globalBooks = new ArrayList<Book>();
-        private List<Book> cartBbooks = new ArrayList<Book>();
+    //private static List<Book> globalBooks = new ArrayList<Book>();
+    //private List<Book> cartBbooks = new ArrayList<Book>();
 
-    public ShoppingCart(BookRepository bookRepository) {
+    public ShoppingCart(UserMode userMode, BookRepository repository, Scanner scanner) {
+        this.userMode = userMode;
         this.bookRepository = this.bookRepository;
     }
 
@@ -26,14 +27,14 @@ public class ShoppingCart {
         return id;
     }
 
-
-
     public void checkOut(){
-        System.out.println(checkOutMessage);
 
     }
 
-
     public void cartOperations() {
+
+    }
+
+    public void execute() {
     }
 }

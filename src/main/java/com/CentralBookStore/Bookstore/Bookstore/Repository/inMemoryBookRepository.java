@@ -1,12 +1,10 @@
 package com.CentralBookStore.Bookstore.Bookstore.Repository;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//@Repository
 public class inMemoryBookRepository implements BookRepository{
     private final List<Book> books = new ArrayList<>();
 
@@ -27,7 +25,13 @@ public class inMemoryBookRepository implements BookRepository{
     }
 
     @Override
-    public List<Book> findById(int id) {
-        return null;
+    public Book findById(int id) {
+        Book book = books.get(id);
+        return book;
+    }
+
+    @Override
+    public void delete(int id) {
+        books.remove(id);
     }
 }

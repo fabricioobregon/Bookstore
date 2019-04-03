@@ -2,33 +2,44 @@ package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Model.BookManagerOptionMenu;
+import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-//@Service
 public class BookManager {
-    private static BookRepository bookRepository;
-    private final Scanner scanner = new Scanner(System.in);
+    private final UserMode userMode;
+    private BookRepository bookRepository;
+    private final Scanner scanner;
+    private ReadKeyboard readKeyboard ;
     private static final String BOOKMANAGEROPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - For " + BookManagerOptionMenu.ADDBOOK + "\n" +
             "2 - For " + BookManagerOptionMenu.LISTBOOKS + "\n" +
             "3 - For " + BookManagerOptionMenu.REMOVEBOOK + "\n" +
             "4 - For " + BookManagerOptionMenu.EXIT;
 
-    public BookManager(BookRepository bookRepository) {
+    public BookManager(UserMode userMode, BookRepository bookRepository, Scanner scanner) {
+        this.userMode = userMode;
         this.bookRepository = bookRepository;
+        this.scanner = scanner;
+        this.readKeyboard = new ReadKeyboard(scanner,"", 0);
 
     }
 
-    public void bookOperations() {
-        boolean loop = true;
+    public void execute(){
+        if(userMode == userMode.ADMIN){
+            bookOperations();
+        } else {
+            System.out.println("You do not have access logged as " + this.userMode);
+        }
+    }
 
+    public void bookOperations() {
+    boolean loop = true;
         do{
-            switch (readKeyboard(BOOKMANAGEROPTIONMENU,4)) {
+            switch (readKeyboard.numberUsingMenu(scanner,BOOKMANAGEROPTIONMENU,4)) {
                 case 1:
                     addBook();
                     break;
@@ -42,17 +53,12 @@ public class BookManager {
                     loop = false;
                     break;
             }
-
         }while(loop);
-
-    }
-
-    private void deleteBook() {
     }
 
     public void addBook(){
         Book book;
-        book = new Book(readKeyboardString());
+        book = new Book(readKeyboard.text(scanner,"Please, type the book title:"));
         System.out.println(book.toString());
         bookRepository.save(book);
     }
@@ -64,30 +70,9 @@ public class BookManager {
         System.out.println(collect);
     }
 
-    private int readKeyboard(String optionText,int numberOfOptions) {
-        int choice = 0;
-
-        while (choice < 1 || choice > numberOfOptions) {
-            try {
-                System.out.println(optionText);
-                choice = scanner.nextInt();
-                scanner.nextLine();
-                if(choice < 1 || choice > numberOfOptions){ System.out.println("INVALID OPTION!"); }
-            } catch (Exception e) {
-                scanner.nextLine();
-                System.out.println("INVALID OPTION!");
-            }
-        }
-        System.out.println("The choice number is " + choice);
-        return choice;
+    public void deleteBook(){
+        listBooks();
+        int id = Integer.valueOf(readKeyboard.text(scanner,"Type the id to delete the book"));
+        bookRepository.delete(id);
     }
-
-    private String readKeyboardString() {
-        String title;
-        System.out.println("Please, type the book title:");
-        title = scanner.nextLine();
-        return title;
-    }
-
-
 }
