@@ -7,56 +7,68 @@ import com.CentralBookStore.Bookstore.Bookstore.Repository.inMemoryBookRepositor
 import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
 import java.security.InvalidParameterException;
+import java.util.UUID;
 
 public class StoreManager {
-    private BookRepository bookRepository = new inMemoryBookRepository();
-    private BookManager bookManager;
-    private ShoppingCart shoppingCart;
-    private Enum USERMODE;
-    private final String USERMODETEXT = "Please, selec the user mode: \n" +
+    public Enum USERMODE;
+    public BookRepository bookRepository;
+    public BookRepository cartRepository;
+    public BookManager bookManager;
+    public BookSearch booksearch;
+    public String shoppingCartID;
+    public ShoppingCart shoppingCart;
+    public final String USERMODETEXT = "Please, selec the user mode: \n" +
             "1 - For " + UserMode.ADMIN + "\n" +
             "2 - For " + UserMode.USER + "\n" +
             "3 - For " + UserMode.VISITOR;
-    private final String OPTIONMENU = "Please, selec the option from menu: \n" +
+    public final String OPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - For " + OptionMenu.SEARCHBOOK + "\n" +
             "2 - For " + OptionMenu.SHOPPINGCART + "\n" +
             "3 - For " + OptionMenu.BOOKMANAGER + "\n" +
             "4 - For " + OptionMenu.EXIT;
 
     public StoreManager() {
+        this.USERMODE = userModeSelected();
+        this.bookRepository = new inMemoryBookRepository();
+        this.cartRepository = new inMemoryBookRepository();
+        this.bookManager = new BookManager((UserMode) this.USERMODE,bookRepository);
+        this.booksearch = new BookSearch(bookRepository);
+        this.shoppingCartID = UUID.randomUUID().toString();
+        this.shoppingCart = new ShoppingCart((UserMode) this.USERMODE,shoppingCartID, cartRepository, bookRepository);
     }
 
     public void execute() {
-        this.USERMODE = userModeSelected();
-        System.out.println(this.USERMODE + " mode selected\n");
-        optionMenu((UserMode) this.USERMODE);
+        optionMenu();
     }
 
     public Enum userModeSelected() {
         switch (ReadKeyboard.number(USERMODETEXT,3)) {
             case 1:
+                System.out.println(UserMode.ADMIN + " mode selected\n");
                 return UserMode.ADMIN;
             case 2:
+                System.out.println(UserMode.USER + " mode selected\n");
                 return UserMode.USER;
             case 3:
+                System.out.println(UserMode.VISITOR + " mode selected\n");
                 return UserMode.VISITOR;
             default:
                 throw new InvalidParameterException(">>>Invalid user mode selected<<<");
         }
     }
 
-    public void optionMenu(UserMode userMode){
+    public void optionMenu(){
         boolean loop = true;
         do{
             switch (ReadKeyboard.numberUsingMenu(OPTIONMENU,4)) {
                 case 1:
-                    new BookSearch(bookRepository).execute();
+                    booksearch.execute();
                     break;
                 case 2:
-                    new ShoppingCart(userMode,bookRepository).execute();
+                    shoppingCart.execute();
                     break;
                 case 3:
-                    new BookManager(userMode,bookRepository).execute();
+                    bookManager.execute();
                     break;
                 case 4:
                     System.out.println("Thank you for visiting our Book Store!");

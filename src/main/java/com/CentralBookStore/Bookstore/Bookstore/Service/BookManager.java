@@ -6,6 +6,8 @@ import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
+import java.util.stream.Collectors;
+
 public class BookManager {
     private UserMode userMode;
     private BookRepository bookRepository;
@@ -56,12 +58,15 @@ public class BookManager {
     }
 
     public void listBooks(){
-        bookRepository.findAll();
-
+        if(bookRepository.isEmpty()){
+            return;
+        }
+        String collect = bookRepository.findAll().stream().map(Book::toString).collect(Collectors.joining("\n"));
+        System.out.println(collect);
     }
 
     public void deleteBook(){
-        if(bookRepository.checkEmpty()){
+        if(bookRepository.isEmpty()){
             return;
         }
         String id = ReadKeyboard.text("Type the id to delete the book");

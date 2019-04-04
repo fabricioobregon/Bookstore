@@ -2,13 +2,15 @@ package com.CentralBookStore.Bookstore.Bookstore.Repository;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 
+import java.util.List;
+
 public interface BookRepository {
 
-    boolean checkEmpty();
+    boolean isEmpty();
 
     void save(Book book);
 
-    void findAll();
+    List<Book> findAll();
 
     Book findById(String id);
 
