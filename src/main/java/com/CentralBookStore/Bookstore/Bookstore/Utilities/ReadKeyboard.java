@@ -45,7 +45,7 @@ public class ReadKeyboard {
 
     public static String text(String optionText) {
         String textInput = "";
-        while (textInput == "") {
+        while (textInput.equals("")) {
             try {
                 System.out.println(optionText);
                 textInput = scanner.nextLine();

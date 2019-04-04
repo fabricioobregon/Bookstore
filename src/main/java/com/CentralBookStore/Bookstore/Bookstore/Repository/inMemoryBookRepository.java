@@ -10,7 +10,7 @@ public class inMemoryBookRepository implements BookRepository{
 
     public boolean isEmpty(){
         if (books.isEmpty()){
-            System.out.println("There are no books in the store!");
+            System.out.println("There are no books!");
             return true;
         }
         return false;
@@ -55,5 +55,10 @@ public class inMemoryBookRepository implements BookRepository{
             return;
         }
         books.remove(findById(id));
+    }
+
+    @Override
+    public void clear() {
+        books.clear();
     }
 }

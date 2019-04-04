@@ -30,7 +30,7 @@ public class BookManager {
         }
     }
 
-    public void bookOperations() {
+    private void bookOperations() {
     boolean loop = true;
         do{
             switch (ReadKeyboard.numberUsingMenu(BOOKMANAGEROPTIONMENU,4)) {
@@ -50,14 +50,14 @@ public class BookManager {
         }while(loop);
     }
 
-    public void addBook(){
+    private void addBook(){
         Book book;
         book = new Book(ReadKeyboard.text("Please, type the book title:"));
         System.out.println(book.toString());
         bookRepository.save(book);
     }
 
-    public void listBooks(){
+    private void listBooks(){
         if(bookRepository.isEmpty()){
             return;
         }
@@ -65,7 +65,7 @@ public class BookManager {
         System.out.println(collect);
     }
 
-    public void deleteBook(){
+    private void deleteBook(){
         if(bookRepository.isEmpty()){
             return;
         }

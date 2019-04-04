@@ -17,4 +17,6 @@ public interface BookRepository {
     Book findByTitle(String title);
 
     void delete (String id);
+
+    void clear();
 }

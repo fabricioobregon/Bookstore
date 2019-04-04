@@ -10,26 +10,25 @@ import java.security.InvalidParameterException;
 import java.util.UUID;
 
 public class StoreManager {
-    public Enum USERMODE;
-    public BookRepository bookRepository;
-    public BookRepository cartRepository;
-    public BookManager bookManager;
-    public BookSearch booksearch;
-    public String shoppingCartID;
-    public ShoppingCart shoppingCart;
-    public final String USERMODETEXT = "Please, selec the user mode: \n" +
+    private Enum USERMODE;
+    private final static BookRepository bookRepository = new inMemoryBookRepository();
+    private BookRepository cartRepository;
+    private BookManager bookManager;
+    private BookSearch booksearch;
+    private String shoppingCartID;
+    private ShoppingCart shoppingCart;
+    private static final String USERMODETEXT = "Please, selec the user mode: \n" +
             "1 - For " + UserMode.ADMIN + "\n" +
             "2 - For " + UserMode.USER + "\n" +
             "3 - For " + UserMode.VISITOR;
-    public final String OPTIONMENU = "Please, selec the option from menu: \n" +
+    private final String OPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - For " + OptionMenu.SEARCHBOOK + "\n" +
             "2 - For " + OptionMenu.SHOPPINGCART + "\n" +
-            "3 - For " + OptionMenu.BOOKMANAGER + "\n" +
+            "3 - For " + OptionMenu.BOOKSTOREMANAGER + "\n" +
             "4 - For " + OptionMenu.EXIT;
 
-    public StoreManager() {
-        this.USERMODE = userModeSelected();
-        this.bookRepository = new inMemoryBookRepository();
+    public StoreManager(Enum userMode) {
+        this.USERMODE = userMode;
         this.cartRepository = new inMemoryBookRepository();
         this.bookManager = new BookManager((UserMode) this.USERMODE,bookRepository);
         this.booksearch = new BookSearch(bookRepository);
@@ -37,11 +36,16 @@ public class StoreManager {
         this.shoppingCart = new ShoppingCart((UserMode) this.USERMODE,shoppingCartID, cartRepository, bookRepository);
     }
 
-    public void execute() {
-        optionMenu();
+    public String execute() {
+        String state = optionMenu();
+        if (state == null) {
+        } else if (state.equals("finished")){
+            return "finished";
+        }
+        return "operational";
     }
 
-    public Enum userModeSelected() {
+    public static Enum userModeSelected() {
         switch (ReadKeyboard.number(USERMODETEXT,3)) {
             case 1:
                 System.out.println(UserMode.ADMIN + " mode selected\n");
@@ -57,7 +61,7 @@ public class StoreManager {
         }
     }
 
-    public void optionMenu(){
+    private String optionMenu(){
         boolean loop = true;
         do{
             switch (ReadKeyboard.numberUsingMenu(OPTIONMENU,4)) {
@@ -65,7 +69,12 @@ public class StoreManager {
                     booksearch.execute();
                     break;
                 case 2:
-                    shoppingCart.execute();
+                    String state = shoppingCart.execute();
+                    if(state == null) {
+                        break;
+                    }else if (state.equals("finished")){
+                        return "finished";
+                    }
                     break;
                 case 3:
                     bookManager.execute();
@@ -77,6 +86,7 @@ public class StoreManager {
                 default:
             }
         }while(loop);
+        return null;
     }
 
 }

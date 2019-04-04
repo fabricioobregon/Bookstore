@@ -1,6 +1,7 @@
 package com.CentralBookStore.Bookstore.Bookstore;
 
 import com.CentralBookStore.Bookstore.Bookstore.Service.StoreManager;
+import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -11,14 +12,15 @@ public class BookstoreApplication {
 
 		//SpringApplication.run(BookstoreApplication.class, args);
 
-
-		StoreManager storeManager = new StoreManager();
-		storeManager.execute();
-
+		StoreManager storeManager;
+		while (true){
+			storeManager = new StoreManager(StoreManager.userModeSelected());
+			String state = storeManager.execute();
+			if( state == null) {
+			} else if (state.equals("finished")){
+			}
+		}
 
 	}
-
-
-
 
 }

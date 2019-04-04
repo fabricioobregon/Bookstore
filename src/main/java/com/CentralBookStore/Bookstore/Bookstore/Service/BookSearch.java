@@ -23,7 +23,7 @@ public class BookSearch {
         searchOperations();
     }
 
-    private static void searchOperations() {
+    private void searchOperations() {
         boolean loop = true;
         do{
             switch (ReadKeyboard.numberUsingMenu(BOOKSEARCHOPTIONMENU,4)) {

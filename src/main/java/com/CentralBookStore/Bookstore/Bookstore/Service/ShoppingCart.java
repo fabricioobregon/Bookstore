@@ -1,11 +1,13 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
+import com.CentralBookStore.Bookstore.Bookstore.BookstoreApplication;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ShoppingCart {
@@ -13,6 +15,7 @@ public class ShoppingCart {
     private String shoppingCartID;
     private BookRepository bookRepository;
     private BookRepository cartRepository;
+    private Book book;
     private static final String SHOPPINGCARTOPTIONMENU = "Please, selec the option from menu: \n" +
             "1 - To show your cart items\n" +
             "2 - To add a book to the cart\n" +
@@ -27,15 +30,20 @@ public class ShoppingCart {
         this.bookRepository = bookRepository;
     }
 
-    public void execute(){
+    public String execute(){
         if(userMode != userMode.VISITOR){
-            cartOperations();
+            String state = cartOperations();
+            if (state == null) {
+            }else if(state.equals("finished")){
+                return "finished";
+            }
         } else {
             System.out.println("You do not have access logged as " + this.userMode);
         }
+        return null;
     }
 
-    public void cartOperations() {
+    private String cartOperations() {
         boolean loop = true;
         do{
             switch (ReadKeyboard.numberUsingMenu(SHOPPINGCARTOPTIONMENU,5)) {
@@ -49,7 +57,12 @@ public class ShoppingCart {
                     removeBookFromCart();
                     break;
                 case 4:
-                    checkOut();
+                    String state = checkOut();
+                    if(state == null){
+                        break;
+                    }else if (state.equals("finished")){
+                        return "finished";
+                    }
                     loop = false;
                     break;
                 case 5:
@@ -57,9 +70,10 @@ public class ShoppingCart {
                     break;
             }
         }while(loop);
+        return null;
     }
 
-    public void showCart(){
+    private void showCart(){
         if(cartRepository.isEmpty()){
             System.out.println("CartID: " + shoppingCartID + " is empty");
             return;
@@ -68,25 +82,35 @@ public class ShoppingCart {
         System.out.println(collect);
     }
 
-    public void addBookToCart() {
-        Book book;
+    private void addBookToCart() {
         book = BookSearch.findById();
+        if(book == null){
+            return;
+        }
         System.out.println(book.toString());
         cartRepository.save(book);
     }
 
-    public void removeBookFromCart(){
+    private void removeBookFromCart(){
         if(cartRepository.isEmpty()){
             return;
         }
-        String id = ReadKeyboard.text("Type the id to delete the book");
-        cartRepository.delete(id);
+        book = BookSearch.findById();
+        if(book == null){
+            return;
+        }
+        cartRepository.delete(book.getId());
     }
 
-    public void checkOut(){
+    private String checkOut(){
+        if(cartRepository.isEmpty()){
+            System.out.println("CartID: " + shoppingCartID + " is empty");
+            return null;
+        }
         System.out.println("Order number " + shoppingCartID);
         showCart();
         System.out.println("Thank you for buying with us!");
+        return "finished";
     }
 
 }
