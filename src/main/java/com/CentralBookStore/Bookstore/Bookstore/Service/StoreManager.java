@@ -50,7 +50,7 @@ public class StoreManager {
         do{
             switch (ReadKeyboard.numberUsingMenu(OPTIONMENU,4)) {
                 case 1:
-                    new BookSearch(userMode,bookRepository).execute();
+                    new BookSearch(bookRepository).execute();
                     break;
                 case 2:
                     new ShoppingCart(userMode,bookRepository).execute();

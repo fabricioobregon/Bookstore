@@ -44,8 +44,24 @@ public class ReadKeyboard {
     }
 
     public static String text(String optionText) {
-        System.out.println(optionText);
-        return scanner.nextLine();
+        String textInput = "";
+        while (textInput == "") {
+            try {
+                System.out.println(optionText);
+                textInput = scanner.nextLine();
+            } catch (Exception e) {
+                System.out.println("INVALID OPTION!");
+            }
+        }
+        return textInput;
     }
+
+
+
+
+
+
+
+
 
 }

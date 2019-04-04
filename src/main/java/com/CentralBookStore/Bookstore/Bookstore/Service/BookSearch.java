@@ -1,41 +1,64 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
-import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
-import com.CentralBookStore.Bookstore.Bookstore.Model.UserMode;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.CentralBookStore.Bookstore.Bookstore.Utilities.ReadKeyboard;
 
 public class BookSearch {
-    private UserMode userMode;
     private BookRepository bookRepository;
     private static final String BOOKSEARCHOPTIONMENU = "Please, selec the option from menu: \n" +
-                       "1 - To search by ID\n" +
-                       "2 - To search by Title\n" +
-                       "3 - To list all the books\n" +
+                       "1 - To list all the books\n" +
+                       "2 - To search by ID\n" +
+                       "3 - To search by Title\n" +
                        "4 - to EXIT";
 
-    public BookSearch(UserMode userMode, BookRepository bookRepository) {
-        this.userMode = userMode;
+    public BookSearch(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
     public void execute(){
-
         searchOperations();
-
     }
 
     private void searchOperations() {
+        boolean loop = true;
+        do{
+            switch (ReadKeyboard.numberUsingMenu(BOOKSEARCHOPTIONMENU,4)) {
+                case 1:
+                    findAll();
+                    break;
+                case 2:
+                    findById();
+                    break;
+                case 3:
+                    findByTitle();
+                    break;
+                case 4:
+                    loop = false;
+                    break;
+            }
+        }while(loop);
     }
 
+    public void findAll(){
+        bookRepository.findAll();
 
-    public void listBooks(){
-        List<Book> books;
-        books = bookRepository.findAll();
-        String collect = books.stream().map(Book::toString).collect(Collectors.joining("\n"));
-        System.out.println(collect);
+    }
+
+    public void findById(){
+        if(bookRepository.checkEmpty()){
+            return;
+        }
+        String id = ReadKeyboard.text("Type the id to find the book");
+        bookRepository.findById(id);
+
+    }
+
+    public void findByTitle(){
+        if(bookRepository.checkEmpty()){
+            return;
+        }
+        String title = ReadKeyboard.text("Type the title to find the book");
+        bookRepository.findByTitle(title);
     }
 }
 
