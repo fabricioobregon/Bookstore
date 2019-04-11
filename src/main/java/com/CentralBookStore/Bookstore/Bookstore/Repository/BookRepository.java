@@ -1,22 +1,10 @@
 package com.CentralBookStore.Bookstore.Bookstore.Repository;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.List;
+@RepositoryRestResource( collectionResourceRel = "books", path = "books")
+public interface BookRepository extends JpaRepository<Book, String> {
 
-public interface BookRepository {
-
-    boolean isEmpty();
-
-    void save(Book book);
-
-    List<Book> findAll();
-
-    Book findById(String id);
-
-    Book findByTitle(String title);
-
-    void delete (String id);
-
-    void clear();
 }
