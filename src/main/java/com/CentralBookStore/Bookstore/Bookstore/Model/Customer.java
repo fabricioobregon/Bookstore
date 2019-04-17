@@ -1,22 +1,28 @@
 package com.CentralBookStore.Bookstore.Bookstore.Model;
 
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Customer {
+
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
-    private String firstName;
-    private String lastName;
-    private String phone;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Column(nullable = false, length=100)
+    private String name;
+    @NotNull
+    @Column(nullable = false, length=50)
     private String email;
+    @NotNull
+    @Column(nullable = false, length=50)
     private String password;
-    private String address;
-
-
 }
 
