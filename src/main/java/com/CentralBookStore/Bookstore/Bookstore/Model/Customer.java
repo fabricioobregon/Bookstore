@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -19,6 +20,7 @@ public class Customer {
     @Column(nullable = false, length=100)
     private String name;
     @NotNull
+    @Email
     @Column(nullable = false, length=50)
     private String email;
     @NotNull

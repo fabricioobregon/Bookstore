@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 public class InputController {
     @Autowired
@@ -20,7 +22,7 @@ public class InputController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/book")
-    public ResponseEntity<BookResponseDTO> save(@RequestBody BookDTO bookdto) {
+    public ResponseEntity<BookResponseDTO> save(@RequestBody @Valid BookDTO bookdto) {
         Book book = bookService.addBook(bookdto.translateToObject());
         return new ResponseEntity<>(BookResponseDTO.translateToDTO(book), HttpStatus.CREATED);
     }

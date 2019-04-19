@@ -14,13 +14,13 @@ public class Book{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = true, length = 200)
     private String description;
-    @Column(nullable = true, length = 100)
+    @Column(nullable = true, length = 250)
     private String imageUrl;
-    @NonNull
     @Column(nullable = false, unique = true)
     private String isbn;
     @Column(nullable = true, length = 2)

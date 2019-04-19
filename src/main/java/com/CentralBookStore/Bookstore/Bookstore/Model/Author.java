@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -15,8 +14,7 @@ public class Author{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Column(nullable = false,unique = true, length = 100)
+    @Column(unique = true, length = 100)
     private String name;
     @Column(length = 100)
     private String description;
