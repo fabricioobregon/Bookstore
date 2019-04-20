@@ -20,6 +20,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public Docket greetingApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
+                //You need to pass the controller path here. All classes annotated with @Controler will be mapped
                 .apis(RequestHandlerSelectors.basePackage("com.CentralBookStore.Bookstore.Bookstore.Controller"))
                 .build()
                 .apiInfo(metaData());
@@ -38,7 +39,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
+        registry.addResourceHandler("restdoc.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
 
         registry.addResourceHandler("/webjars/**")
