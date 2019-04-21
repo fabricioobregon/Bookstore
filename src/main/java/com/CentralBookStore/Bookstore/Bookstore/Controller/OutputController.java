@@ -1,6 +1,8 @@
 package com.CentralBookStore.Bookstore.Bookstore.Controller;
 
 import com.CentralBookStore.Bookstore.Bookstore.DTO.BookResponseDTO;
+import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
+import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import com.CentralBookStore.Bookstore.Bookstore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,17 +16,32 @@ import java.util.List;
 
 @Controller
 public class OutputController {
-    @Autowired
     private BookService bookService;
 
-    public OutputController() {
+    @Autowired
+    public OutputController(BookService bookService) {
+    this.bookService = bookService;
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/book")
     @ResponseBody
     public ResponseEntity<List<BookResponseDTO>> findAll() {
-        return new ResponseEntity<>(BookResponseDTO.translateToDTO(bookService.find()), HttpStatus.CREATED);
+        return new ResponseEntity<>(BookResponseDTO.translateToDTO(bookService.find()), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
+    @GetMapping("/customers")
+    @ResponseBody
+    public List<Customer> findAllCustomers() {
+        return bookService.findCustomers();
+    }
+
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/customerbooks")
+    @ResponseBody
+    public List<CustomerBook> findAllCustomerBookss() {
+        return bookService.findCustomerBooks();
+    }
 }

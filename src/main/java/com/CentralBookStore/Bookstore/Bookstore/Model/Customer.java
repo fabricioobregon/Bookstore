@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,18 +15,21 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull
     @Column(nullable = false, length=100)
     private String name;
     @NotNull
-    @Email
-    @Column(nullable = false, length=50)
+    @Column(nullable = false, length=100)
     private String email;
     @NotNull
     @Column(nullable = false, length=50)
     private String password;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CustomerBook> customerBooks;
-}
 
+    public Customer(String name, String email, String password, List<CustomerBook> customerBooks) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+}

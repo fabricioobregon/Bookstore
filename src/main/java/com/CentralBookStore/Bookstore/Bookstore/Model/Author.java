@@ -18,9 +18,8 @@ public class Author{
     private String name;
     @Column(length = 100)
     private String description;
-
     //@JsonBackReference
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<Book> books;
 

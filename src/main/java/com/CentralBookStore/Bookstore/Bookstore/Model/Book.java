@@ -28,7 +28,7 @@ public class Book{
     @Column(nullable = true, length = 4)
     private String year;
     //@JsonManagedReference (incompatible with something i forgot)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
     private List<Author>  authors;
 

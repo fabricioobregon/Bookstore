@@ -35,5 +35,4 @@ public class BookResponseDTO {
         return bookResponseDTOList;
     }
 
-
 }

@@ -30,4 +30,5 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .map(error -> new ErrorObject(error.getDefaultMessage(), error.getField(), error.getRejectedValue()))
                 .collect(Collectors.toList());
     }
+
 }

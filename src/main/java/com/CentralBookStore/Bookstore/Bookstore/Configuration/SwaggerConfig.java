@@ -20,8 +20,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     public Docket greetingApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                //You need to pass the controller path here. All classes annotated with @Controler will be mapped
-                .apis(RequestHandlerSelectors.basePackage("com.CentralBookStore.Bookstore.Bookstore.Controller"))
+                //You need to pass the controller path here. All classes annotated with @Controller will be mapped
+                .apis(RequestHandlerSelectors.basePackage("com.CentralBookStore.Bookstore"))
                 .build()
                 .apiInfo(metaData());
 

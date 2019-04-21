@@ -16,7 +16,7 @@ public class BookDTO {
     private String imageUrl;
     @NotNull(message = "{isbn.not.null}")
     @NotBlank(message = "{isbn.not.blank}")
-    @Pattern(regexp = "^(97(8|9))?\\d{9}(\\d|X)$", message ="{isbn.not.valid}")
+   // @Pattern(regexp = "^(97(8|9))?\\d{9}(\\d|X)$", message ="{isbn.not.valid}")
     private String isbn;
     private String edition;
     private String year;
