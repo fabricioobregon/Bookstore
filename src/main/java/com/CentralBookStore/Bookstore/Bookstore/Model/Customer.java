@@ -19,7 +19,7 @@ public class Customer {
     @Column(nullable = false, length=100)
     private String name;
     @NotNull
-    @Column(nullable = false, length=100)
+    @Column(nullable = false, unique=true, length=100)
     private String email;
     @NotNull
     @Column(nullable = false, length=50)

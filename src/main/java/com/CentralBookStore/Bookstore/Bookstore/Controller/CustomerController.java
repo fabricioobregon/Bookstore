@@ -1,6 +1,9 @@
 package com.CentralBookStore.Bookstore.Bookstore.Controller;
 
+import com.CentralBookStore.Bookstore.Bookstore.DTO.CustomerDTO;
+import com.CentralBookStore.Bookstore.Bookstore.DTO.CustomerResponseDTO;
 import com.CentralBookStore.Bookstore.Bookstore.DTO.Login;
+import com.CentralBookStore.Bookstore.Bookstore.DTO.LoginResponse;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
 import com.CentralBookStore.Bookstore.Bookstore.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +26,10 @@ public class CustomerController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/add")
-    public ResponseEntity<Customer> addUser(@RequestBody @Valid Customer customer) {
-        Customer newCustomer = customerService.addCustomer(customer);
-        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+    @PostMapping("/register")
+    public ResponseEntity<CustomerResponseDTO> addUser(@RequestBody @Valid CustomerDTO customerdto) {
+        Customer customer = customerService.addCustomer(customerdto.translateToObject());
+        return new ResponseEntity<>(CustomerResponseDTO.translateToDTO(customer), HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*")
@@ -46,14 +49,14 @@ public class CustomerController {
     @CrossOrigin(origins = "*")
     @GetMapping("/findall")
     @ResponseBody
-    public ResponseEntity<List<Customer>> findAll() {
-        return new ResponseEntity<>(customerService.findCustomers(), HttpStatus.OK);
+    public ResponseEntity<List<CustomerResponseDTO>> findAll() {
+        return new ResponseEntity<>(CustomerResponseDTO.translateToDTO(customerService.findCustomers()), HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<UUID> login(@RequestBody Login login) {
+    public ResponseEntity<LoginResponse> login(@RequestBody Login login) {
         return new ResponseEntity<>(customerService.login(login), HttpStatus.OK);
     }
 

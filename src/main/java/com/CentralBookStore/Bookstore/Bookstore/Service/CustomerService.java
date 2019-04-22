@@ -1,6 +1,7 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.DTO.Login;
+import com.CentralBookStore.Bookstore.Bookstore.DTO.LoginResponse;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +48,14 @@ public class CustomerService {
     }
 
 
-    public UUID login(Login login){
-        Customer customer = new Customer();
+    public LoginResponse login(Login login){
     if(customerRepository.existsByEmail(login.getEmail())){
-        customer = customerRepository.findCustomerByEmail(login.getEmail());
+        Customer customer = customerRepository.findCustomerByEmail(login.getEmail());
     if(customer.getEmail().equals(login.getEmail()) && customer.getPassword().equals(login.getPassword())){
-        return customer.getId();
+        return new LoginResponse(customer.getId(),customer.getName());
     }
         }
-        customer.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
-        return customer.getId();
+        return new LoginResponse();
     }
 
 }
