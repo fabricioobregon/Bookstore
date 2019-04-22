@@ -30,6 +30,7 @@ public class BookDTO {
     @ApiModelProperty(position = 6)
     private Set<Author> authors;
 
+//    Acts like this.
     public Book translateToObject(){
         return new Book(title, description, imageUrl, isbn, edition, year, authors);
     }

@@ -1,6 +1,7 @@
 package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
+import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

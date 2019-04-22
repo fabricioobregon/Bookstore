@@ -20,15 +20,15 @@ public class CustomerBookService {
     @Transactional
     public CustomerBook addCustomerBook(CustomerBook customerBook){
         customerBookRepository.save(customerBook);
-        return customerBookRepository.getOne(customerBook);
+        return customerBook;
     }
 
     @Transactional
     public CustomerBook updateCustomerBook(CustomerBook customerBook){
-        CustomerBook customerBookUpdate = new CustomerBook();
-        customerBookUpdate = customerBookRepository.getOne(customerBook);
+        CustomerBook customerBookUpdate;
+        customerBookUpdate = customerBookRepository.getOne(customerBook.getId());
         customerBookUpdate.setLastPage(customerBook.getLastPage());
-        return customerBookRepository.getOne(customerBook);
+        return customerBookRepository.getOne(customerBook.getId());
     }
 
     public List<CustomerBook> findCustomerBooks(){ return customerBookRepository.findAll(); }

@@ -1,15 +1,18 @@
 package com.CentralBookStore.Bookstore.Bookstore.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
+//@Table(name = "customer")
 public class Customer {
 
     @Id
@@ -24,8 +27,12 @@ public class Customer {
     @NotNull
     @Column(nullable = false, length=50)
     private String password;
-//    @OneToMany(fetch = FetchType.EAGER)
-//    private List<CustomerBook> customerBooks;
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+            orphanRemoval = true)
+    @JsonIgnore
+    private Set<CustomerBook> customerBooks;
 
     public Customer(String name, String email, String password) {
         this.name = name;

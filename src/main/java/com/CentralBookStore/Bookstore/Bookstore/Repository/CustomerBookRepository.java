@@ -10,7 +10,7 @@ import java.util.List;
 public interface CustomerBookRepository extends JpaRepository<CustomerBook, Long> {
 
     List<CustomerBook> findAll();
-    CustomerBook getOne(CustomerBook customerbook);
+    CustomerBook getOne(Long id);
 
 }
 

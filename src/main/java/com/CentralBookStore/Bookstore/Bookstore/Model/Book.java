@@ -17,21 +17,21 @@ public class Book{
     private Long id;
     @NonNull
     @Column(nullable = false, length = 100)
-    private String title;
+    public String title;
     @Column(nullable = true, length = 200)
-    private String description;
+    public String description;
     @Column(nullable = true, length = 250)
-    private String imageUrl;
+    public String imageUrl;
     @Column(nullable = false, unique = true)
-    private String isbn;
+    public String isbn;
     @Column(nullable = true, length = 3) //4
-    private String edition;
+    public String edition;
     @Column(nullable = true, length = 4) //4
-    private String year;
+    public String year;
     //@JsonManagedReference //incompatible with  BookDTO Type
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
-    private Set<Author>  authors = new HashSet<>();
+    public Set<Author>  authors = new HashSet<>();
 
 
     public Book(String title, String description, String imageUrl, String isbn, String edition,
