@@ -1,12 +1,15 @@
 package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
 public class LoginResponse {
+    @ApiModelProperty(position = 0)
     private UUID id;
+    @ApiModelProperty(position = 1)
     private String name;
 
     public LoginResponse(){

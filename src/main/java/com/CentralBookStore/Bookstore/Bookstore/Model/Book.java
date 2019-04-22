@@ -24,9 +24,9 @@ public class Book{
     private String imageUrl;
     @Column(nullable = false, unique = true)
     private String isbn;
-    @Column(nullable = true, length = 2)
+    @Column(nullable = true, length = 3) //4
     private String edition;
-    @Column(nullable = true, length = 4)
+    @Column(nullable = true, length = 4) //4
     private String year;
     //@JsonManagedReference //incompatible with  BookDTO Type
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

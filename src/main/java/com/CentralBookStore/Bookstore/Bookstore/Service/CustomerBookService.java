@@ -1,26 +1,42 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
-import com.CentralBookStore.Bookstore.Bookstore.Repository.AuthorRepository;
-import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
+import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerBookRepository;
-import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class CustomerBookService {
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
-    private CustomerRepository customerRepository;
     private CustomerBookRepository customerBookRepository;
 
     @Autowired
-    public CustomerBookService(BookRepository bookRepository, AuthorRepository authorRepository,
-                               CustomerRepository customerRepository, CustomerBookRepository customerBookRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
-        this.customerRepository = customerRepository;
+    public CustomerBookService(CustomerBookRepository customerBookRepository) {
         this.customerBookRepository = customerBookRepository;
+    }
+
+    @Transactional
+    public CustomerBook addCustomerBook(CustomerBook customerBook){
+        customerBookRepository.save(customerBook);
+        return customerBookRepository.getOne(customerBook);
+    }
+
+    @Transactional
+    public CustomerBook updateCustomerBook(CustomerBook customerBook){
+        CustomerBook customerBookUpdate = new CustomerBook();
+        customerBookUpdate = customerBookRepository.getOne(customerBook);
+        customerBookUpdate.setLastPage(customerBook.getLastPage());
+        return customerBookRepository.getOne(customerBook);
+    }
+
+    public List<CustomerBook> findCustomerBooks(){ return customerBookRepository.findAll(); }
+
+    @Transactional
+    public void deleteCostumerBook(Long id) {
+        CustomerBook customerBook = customerBookRepository.getOne(id);
+        customerBookRepository.delete(customerBook);
     }
 
 }

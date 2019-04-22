@@ -7,6 +7,7 @@ import lombok.NonNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
@@ -34,6 +35,11 @@ public class CustomerBook extends Book{
 
     public CustomerBook(){
         super();
+    }
+
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
+        this.lastTimeModified = new Timestamp(new Date().getTime());
     }
 }
 
