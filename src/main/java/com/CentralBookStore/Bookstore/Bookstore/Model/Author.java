@@ -12,19 +12,22 @@ import java.util.*;
 public class Author{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_generator")
+    @SequenceGenerator(name = "author_generator", sequenceName = "author_sequence", allocationSize = 1)
     private Long id;
     @Column(unique = true, length = 100)
     private String name;
     @Column(length = 100)
     private String description;
-    //@JsonBackReference
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    @JsonBackReference
+//    Do not use mappedBy = "authors" with many to many
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
-    private List<Book> books;
+    private Set<Book> books = new HashSet<>();
 
-    public String getName(){
-        return this.name;
+    public Author(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 }
 

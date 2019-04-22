@@ -7,6 +7,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 public class BookDTO {
@@ -20,7 +21,7 @@ public class BookDTO {
     private String isbn;
     private String edition;
     private String year;
-    private List<Author> authors;
+    private Set<Author> authors;
 
     public Book translateToObject(){
         return new Book(title, description, imageUrl, isbn, edition, year, authors);

@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -13,8 +13,8 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     @NotNull
     @Column(nullable = false, length=100)
     private String name;
@@ -24,10 +24,10 @@ public class Customer {
     @NotNull
     @Column(nullable = false, length=50)
     private String password;
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<CustomerBook> customerBooks;
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private List<CustomerBook> customerBooks;
 
-    public Customer(String name, String email, String password, List<CustomerBook> customerBooks) {
+    public Customer(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;

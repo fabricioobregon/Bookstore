@@ -15,10 +15,10 @@ public class CustomerDTO {
     @Email(message = "email.not.valid")
     private String email;
     private String password;
-    private List<CustomerBook> customerBooks;
+//    private List<CustomerBook> customerBooks;
 
     public Customer translateToObject(){
-        return new Customer(name, email, password, customerBooks);
+        return new Customer(name, email, password);
     }
 
 }

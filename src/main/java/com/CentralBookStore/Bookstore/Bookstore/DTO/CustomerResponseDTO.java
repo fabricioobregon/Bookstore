@@ -8,25 +8,26 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class CustomerResponseDTO {
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
     private String password;
-    private List<CustomerBook> customerBooks;
+    //private List<CustomerBook> customerBooks;
 
 
     public static CustomerResponseDTO translateToDTO(Customer customer) {
-        return new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPassword(), customer.getCustomerBooks());
+        return new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPassword());
     }
 
     public static List<CustomerResponseDTO> translateToDTO(List<Customer> customers) {
         List<CustomerResponseDTO>  customeResponseDTOList = new ArrayList<>();
         for (Customer customer: customers) {
-            customeResponseDTOList.add(new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPassword(), customer.getCustomerBooks()));
+            customeResponseDTOList.add(new CustomerResponseDTO(customer.getId(), customer.getName(),customer.getEmail(), customer.getPassword()));
             }
         return customeResponseDTOList;
     }

@@ -12,7 +12,8 @@ import java.util.*;
 public class Book{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_generator")
+    @SequenceGenerator(name = "book_generator", sequenceName = "book_sequence", allocationSize = 1)
     private Long id;
     @NonNull
     @Column(nullable = false, length = 100)
@@ -27,14 +28,14 @@ public class Book{
     private String edition;
     @Column(nullable = true, length = 4)
     private String year;
-    //@JsonManagedReference (incompatible with something i forgot)
+    //@JsonManagedReference //incompatible with  BookDTO Type
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
-    private List<Author>  authors;
+    private Set<Author>  authors = new HashSet<>();
 
 
     public Book(String title, String description, String imageUrl, String isbn, String edition,
-                String year, List<Author>  authors){
+                String year, Set<Author>  authors){
         this.title = title;
         this.description = description;
         this.imageUrl = imageUrl;

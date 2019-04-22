@@ -1,51 +1,72 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
-import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
-import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.AuthorRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.BookRepository;
-import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerBookRepository;
-import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class BookService {
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
-    private CustomerRepository customerRepository;
-    private CustomerBookRepository customerBookRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository,
-                        CustomerRepository customerRepository, CustomerBookRepository customerBookRepository){
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository){
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
-        this.customerRepository = customerRepository;
-        this.customerBookRepository = customerBookRepository;
     }
 
 
     @Transactional
-    public Book addBook(Book book){
-        book.setAuthors(book.getAuthors().stream()
+    public Book addBook(Book book){ //post
+        book.setAuthors(book.getAuthors().stream()//check if author already exists and replace
                 .map(author -> (authorRepository.findByName(author.getName()) != null) ? authorRepository.findByName(author.getName()) : author)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toSet()));
             bookRepository.save(book);
         return book;
     }
-    public List<Book> find(){
+    public List<Book> findAllBooks(){ //get
         return bookRepository.findAll();
     }
 
-    public List<Customer> findCustomers(){ return customerRepository.findAll(); }
+    public Book findById(Long id){return bookRepository.findBookById(id);}
 
-    public List<CustomerBook> findCustomerBooks(){return customerBookRepository.findAll(); }
+    public Set<Book> findBooks(String string){ //get
+        Set<Book> bookList = new HashSet<>();
+        bookList.addAll(bookRepository.findUserBookByAuthorsIsLike(string));
+        bookList.addAll(bookRepository.findUserBookByIsbn(string));
+        bookList.addAll(bookRepository.findUserBookByTitleIsLike(string));
+      return bookList;
+    }
+
+    @Transactional
+    public void deleteBook(Long id){ //delete
+         Book book = bookRepository.findBookById(id);
+         //book.getAuthors().removeAll(book.getAuthors()); //  << Three days suffering here
+         bookRepository.delete(book);
+
+    }
+
+    @Transactional
+    //need to guarantee that every field will have a value loading in the frontend form
+    public Book updateBook(Book book){ //post
+        Book bookUpdate = new Book();
+        bookUpdate = bookRepository.getOne(book.getId());
+        bookUpdate.setTitle(book.getTitle());
+        bookUpdate.setIsbn(book.getIsbn());
+        bookUpdate.setYear(book.getYear());
+        bookUpdate.setImageUrl(book.getImageUrl());
+        bookUpdate.setEdition(book.getEdition());
+        bookUpdate.setDescription(book.getDescription());
+        bookUpdate.setAuthors(book.getAuthors());
+        bookRepository.save(bookUpdate);
+        return bookUpdate;
+    }
 
 
 }

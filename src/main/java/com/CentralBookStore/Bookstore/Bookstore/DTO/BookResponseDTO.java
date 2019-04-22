@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -19,7 +20,7 @@ public class BookResponseDTO {
     private String isbn;
     private String edition;
     private String year;
-    private List<Author> authors;
+    private Set<Author> authors;
 
     public static BookResponseDTO translateToDTO(Book book) {
         return new BookResponseDTO(book.getId(),book.getTitle(),book.getDescription(), book.getImageUrl(),
