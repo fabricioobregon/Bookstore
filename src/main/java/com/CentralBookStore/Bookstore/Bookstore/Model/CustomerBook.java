@@ -1,5 +1,6 @@
 package com.CentralBookStore.Bookstore.Bookstore.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -24,8 +25,8 @@ public class CustomerBook extends Book{
     @CreationTimestamp
     private Date lastTimeModified;
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="customer_id")
-//    @JsonIgnore
+    @JoinColumn(name="customer_id")
+    @JsonIgnore
     private Customer customer;
 
     @Temporal(TemporalType.TIMESTAMP)

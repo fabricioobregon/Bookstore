@@ -32,4 +32,8 @@ public class Customer {
         this.email = email;
         this.password = password;
     }
+
+    public void setId(UUID uuid) {
+        this.id = uuid;
+    }
 }

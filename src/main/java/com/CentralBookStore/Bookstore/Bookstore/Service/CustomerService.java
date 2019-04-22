@@ -1,24 +1,23 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
+import com.CentralBookStore.Bookstore.Bookstore.DTO.Login;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
-import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerBookRepository;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
 public class CustomerService {
     private CustomerRepository customerRepository;
-    private CustomerBookRepository customerBookRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, CustomerBookRepository customerBookRepository){
+    public CustomerService(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
-        this.customerBookRepository = customerBookRepository;
     }
 
 
@@ -28,7 +27,7 @@ public class CustomerService {
         return customer;
     }
 
-
+    @Transactional
     public Customer updateCustomer(Customer customer){
         Customer customerUpdate = new Customer();
         customerUpdate = customerRepository.getOne(customer.getId());
@@ -40,5 +39,24 @@ public class CustomerService {
     }
 
     public List<Customer> findCustomers(){ return customerRepository.findAll(); }
+
+    @Transactional
+    public void deleteCostumer(UUID id) {
+        Customer customer = customerRepository.getOne(id);
+        customerRepository.delete(customer);
+    }
+
+
+    public UUID login(Login login){
+        Customer customer = new Customer();
+    if(customerRepository.existsByEmail(login.getEmail())){
+        customer = customerRepository.findCustomerByEmail(login.getEmail());
+    if(customer.getEmail().equals(login.getEmail()) && customer.getPassword().equals(login.getPassword())){
+        return customer.getId();
+    }
+        }
+        customer.setId(UUID.fromString("00000000-0000-0000-0000-000000000000"));
+        return customer.getId();
+    }
 
 }

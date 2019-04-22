@@ -13,6 +13,9 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     List<Customer> findAll();
     //Tried findById, but got crudrepository return type error
     Customer getOne(UUID id);
+    Customer findCustomerByEmail(String email);
+    Boolean existsByEmail(String email);
 }
+
 
 

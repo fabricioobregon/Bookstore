@@ -1,7 +1,6 @@
 package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
-import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class CustomerResponseDTO {
     private String name;
     private String email;
     private String password;
-    //private List<CustomerBook> customerBooks;
+//    private Set<CustomerBook> customerBooks;
 
 
     public static CustomerResponseDTO translateToDTO(Customer customer) {
