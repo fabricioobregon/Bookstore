@@ -2,6 +2,7 @@ package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Author;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
+import com.CentralBookStore.Bookstore.Bookstore.Service.CustomerService;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
@@ -24,16 +25,25 @@ public class BookDTO {
    // @Pattern(regexp = "^(97(8|9))?\\d{9}(\\d|X)$", message ="{isbn.not.valid}")
     private String isbn;
     @ApiModelProperty(position = 4)
-    private String edition;
+    private String category;
     @ApiModelProperty(position = 5)
-    private String year;
+    private String publisher;
     @ApiModelProperty(position = 6)
+    private String year;
+    @ApiModelProperty(position = 8)
+    private String pageCount;
+    @ApiModelProperty(position = 9)
     private Set<Author> authors;
+    @ApiModelProperty(position = 10)
+    private String customer_id;
 
 //    Acts like this.
-    public Book translateToObject(){
-        return new Book(title, description, imageUrl, isbn, edition, year, authors);
+    public Book translateToBook(){
+        return new Book(title, description, imageUrl, isbn, category, publisher, year,pageCount, authors, CustomerService.translateToCustomer(customer_id));
     }
+
+
+
 
 }
 

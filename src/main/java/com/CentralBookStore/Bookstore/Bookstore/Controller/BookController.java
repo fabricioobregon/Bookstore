@@ -2,6 +2,7 @@ package com.CentralBookStore.Bookstore.Bookstore.Controller;
 
 import com.CentralBookStore.Bookstore.Bookstore.DTO.BookDTO;
 import com.CentralBookStore.Bookstore.Bookstore.DTO.BookResponseDTO;
+import com.CentralBookStore.Bookstore.Bookstore.DTO.LoginValidation;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class BookController {
     @CrossOrigin(origins = "*")
     @PostMapping("/add")
     public ResponseEntity<BookResponseDTO> addBook(@RequestBody @Valid BookDTO bookdto) {
-        Book book = bookService.addBook(bookdto.translateToObject());
-        return new ResponseEntity<>(BookResponseDTO.translateToDTO(book), HttpStatus.CREATED);
+        Book book = bookService.addBook(bookdto.translateToBook());
+        return new ResponseEntity<>(BookResponseDTO.translateToDTO(bookService.findById(book.getId())), HttpStatus.CREATED);
     }
 
     @CrossOrigin(origins = "*")
@@ -50,6 +51,11 @@ public class BookController {
         return new ResponseEntity<>(BookResponseDTO.translateToDTO(bookService.findAllBooks()), HttpStatus.OK);
     }
 
-
+    @CrossOrigin(origins = "*")
+    @PostMapping("/findbyuser")
+    @ResponseBody
+    public ResponseEntity<List<BookResponseDTO>> findAllBookByUser(@RequestBody @Valid LoginValidation loginValidation) {
+        return new ResponseEntity<>(BookResponseDTO.translateToDTO(bookService.findAllBooksByUser(loginValidation.getId())), HttpStatus.OK);
+    }
 
 }

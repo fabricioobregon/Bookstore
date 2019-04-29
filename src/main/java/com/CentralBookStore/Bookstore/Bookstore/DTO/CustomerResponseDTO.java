@@ -1,18 +1,17 @@
 package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
+import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
-import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
+//import com.CentralBookStore.Bookstore.Bookstore.Model.CustomerBook;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+
 @Getter
 public class CustomerResponseDTO {
     @ApiModelProperty(position = 0)
@@ -23,7 +22,13 @@ public class CustomerResponseDTO {
     private String email;
     @ApiModelProperty(position = 3)
     private String password;
-//    private Set<CustomerBook> customerBooks;
+
+    public CustomerResponseDTO(UUID id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 
 
     public static CustomerResponseDTO translateToDTO(Customer customer) {

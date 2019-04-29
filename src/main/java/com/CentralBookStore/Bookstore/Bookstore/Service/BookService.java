@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class BookService {
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
+    private static BookRepository bookRepository;
+    private static AuthorRepository authorRepository;
 
     @Autowired
     public BookService(BookRepository bookRepository, AuthorRepository authorRepository){
@@ -32,6 +32,10 @@ public class BookService {
     }
     public List<Book> findAllBooks(){ //get
         return bookRepository.findAll();
+    }
+
+    public List<Book> findAllBooksByUser(UUID uuid){ //get
+        return bookRepository.findAllByCustomerId(uuid);
     }
 
     public Book findById(Long id){return bookRepository.findBookById(id);}
@@ -61,7 +65,7 @@ public class BookService {
         bookUpdate.setIsbn(book.getIsbn());
         bookUpdate.setYear(book.getYear());
         bookUpdate.setImageUrl(book.getImageUrl());
-        bookUpdate.setEdition(book.getEdition());
+        bookUpdate.setCategory(book.getCategory());
         bookUpdate.setDescription(book.getDescription());
         bookUpdate.setAuthors(book.getAuthors());
         bookRepository.save(bookUpdate);

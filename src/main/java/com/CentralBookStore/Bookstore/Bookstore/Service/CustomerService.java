@@ -1,7 +1,7 @@
 package com.CentralBookStore.Bookstore.Bookstore.Service;
 
 import com.CentralBookStore.Bookstore.Bookstore.DTO.Login;
-import com.CentralBookStore.Bookstore.Bookstore.DTO.LoginResponse;
+import com.CentralBookStore.Bookstore.Bookstore.DTO.LoginValidation;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
 import com.CentralBookStore.Bookstore.Bookstore.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 public class CustomerService {
-    private CustomerRepository customerRepository;
+    private static CustomerRepository customerRepository;
 
     @Autowired
     public CustomerService(CustomerRepository customerRepository){
@@ -30,7 +30,7 @@ public class CustomerService {
 
     @Transactional
     public Customer updateCustomer(Customer customer){
-        Customer customerUpdate = new Customer();
+        Customer customerUpdate;
         customerUpdate = customerRepository.getOne(customer.getId());
         customerUpdate.setEmail(customer.getEmail());
         customerUpdate.setName(customer.getName());
@@ -48,14 +48,19 @@ public class CustomerService {
     }
 
 
-    public LoginResponse login(Login login){
+    public LoginValidation login(Login login){
     if(customerRepository.existsByEmail(login.getEmail())){
         Customer customer = customerRepository.findCustomerByEmail(login.getEmail());
     if(customer.getEmail().equals(login.getEmail()) && customer.getPassword().equals(login.getPassword())){
-        return new LoginResponse(customer.getId(),customer.getName());
+        return new LoginValidation(customer.getId(),customer.getName());
     }
         }
-        return new LoginResponse();
+        return new LoginValidation();
+    }
+
+
+    public static Customer translateToCustomer(String customer_id){
+        return customerRepository.getOne(UUID.fromString(customer_id));
     }
 
 }

@@ -1,11 +1,14 @@
 package com.CentralBookStore.Bookstore.Bookstore.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,12 +30,12 @@ public class Customer {
     @NotNull
     @Column(nullable = false, length=50)
     private String password;
+    @JsonIgnore
     @OneToMany(
             mappedBy = "customer",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true)
-    @JsonIgnore
-    private Set<CustomerBook> customerBooks;
+    private Set<Book> customerBooks = new HashSet<>();
 
     public Customer(String name, String email, String password) {
         this.name = name;
@@ -43,4 +46,6 @@ public class Customer {
     public void setId(UUID uuid) {
         this.id = uuid;
     }
+
+
 }
