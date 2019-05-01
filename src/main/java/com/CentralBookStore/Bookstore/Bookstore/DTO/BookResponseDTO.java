@@ -2,13 +2,14 @@ package com.CentralBookStore.Bookstore.Bookstore.DTO;
 
 import com.CentralBookStore.Bookstore.Bookstore.Model.Author;
 import com.CentralBookStore.Bookstore.Bookstore.Model.Book;
-import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
+//import com.CentralBookStore.Bookstore.Bookstore.Model.Customer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -34,20 +35,26 @@ public class BookResponseDTO {
     @ApiModelProperty(position = 7)
     private String pageCount;
     @ApiModelProperty(position = 8)
+    private String lastPage;
+    @ApiModelProperty(position = 9)
+    private Date lastUpdate;
+    @ApiModelProperty(position = 10)
     private Set<Author> authors;
 //    @ApiModelProperty(position = 8)
 //    private Customer customer;
 
     public static BookResponseDTO translateToDTO(Book book) {
         return new BookResponseDTO(book.getId(),book.getTitle(),book.getDescription(), book.getImageUrl(),
-                book.getIsbn(), book.getCategory(),book.getPublisher(), book.getYear(),book.getPageCount(), book.getAuthors());
+                book.getIsbn(), book.getCategory(),book.getPublisher(), book.getYear(),book.getPageCount(),
+                book.getLastPage(),book.getLastUpdate(),book.getAuthors());
     }
 
     public static List<BookResponseDTO> translateToDTO(List<Book> books) {
         List<BookResponseDTO> bookResponseDTOList = new ArrayList<>();
         for (Book book: books) {
             bookResponseDTOList.add(new BookResponseDTO(book.getId(),book.getTitle(),book.getDescription(), book.getImageUrl(),
-                    book.getIsbn(), book.getCategory(),book.getPublisher(), book.getYear(),book.getPageCount()  , book.getAuthors()));
+                    book.getIsbn(), book.getCategory(),book.getPublisher(), book.getYear(),book.getPageCount(),
+                    book.getLastPage(),book.getLastUpdate(), book.getAuthors()));
         }
         return bookResponseDTOList;
     }

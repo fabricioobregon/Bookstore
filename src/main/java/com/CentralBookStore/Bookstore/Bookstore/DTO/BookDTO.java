@@ -33,13 +33,15 @@ public class BookDTO {
     @ApiModelProperty(position = 8)
     private String pageCount;
     @ApiModelProperty(position = 9)
-    private Set<Author> authors;
+    private String lastPage;
     @ApiModelProperty(position = 10)
+    private Set<Author> authors;
+    @ApiModelProperty(position = 11)
     private String customer_id;
 
 //    Acts like this.
     public Book translateToBook(){
-        return new Book(title, description, imageUrl, isbn, category, publisher, year,pageCount, authors, CustomerService.translateToCustomer(customer_id));
+        return new Book(title, description, imageUrl, isbn, category, publisher, year,pageCount, lastPage, authors, CustomerService.translateToCustomer(customer_id));
     }
 
 

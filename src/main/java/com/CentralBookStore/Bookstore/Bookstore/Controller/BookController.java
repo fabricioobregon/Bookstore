@@ -38,10 +38,17 @@ public class BookController {
     }
 
     @CrossOrigin(origins = "*")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/updatelastpage")
+    public ResponseEntity<Void> updateLastPage(@RequestBody Book book) {
+        bookService.updateBookPage(book.getId(),book.getLastPage());
+        return ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/delete")
+    public ResponseEntity<Void> deleteBook(@RequestBody Book book) {
+        bookService.deleteBook(book.getId());
+        return ResponseEntity.ok().build();
     }
 
     @CrossOrigin(origins = "*")

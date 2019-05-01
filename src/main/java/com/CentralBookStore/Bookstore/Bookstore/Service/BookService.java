@@ -35,7 +35,7 @@ public class BookService {
     }
 
     public List<Book> findAllBooksByUser(UUID uuid){ //get
-        return bookRepository.findAllByCustomerId(uuid);
+        return bookRepository.findAllByCustomerIdOrderByLastUpdateDesc(uuid);
     }
 
     public Book findById(Long id){return bookRepository.findBookById(id);}
@@ -59,8 +59,7 @@ public class BookService {
     @Transactional
     //need to guarantee that every field will have a value loading in the frontend form
     public Book updateBook(Book book){ //post
-        Book bookUpdate = new Book();
-        bookUpdate = bookRepository.getOne(book.getId());
+        Book bookUpdate = bookRepository.getOne(book.getId());
         bookUpdate.setTitle(book.getTitle());
         bookUpdate.setIsbn(book.getIsbn());
         bookUpdate.setYear(book.getYear());
@@ -72,5 +71,10 @@ public class BookService {
         return bookUpdate;
     }
 
-
+    @Transactional
+    public void updateBookPage(Long id, String lastPage) {
+        Book bookUpdate = bookRepository.findBookById(id);
+        bookUpdate.setLastPage(lastPage);
+        bookRepository.save(bookUpdate);
+    }
 }
